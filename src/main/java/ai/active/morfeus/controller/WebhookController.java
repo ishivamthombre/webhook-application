@@ -2,7 +2,6 @@ package ai.active.morfeus.controller;
 
 import ai.active.fulfillment.webhook.WebhookUtil;
 import ai.active.fulfillment.webhook.data.request.MorfeusWebhookRequest;
-import ai.active.fulfillment.webhook.data.response.MorfeusWebhookResponse;
 import ai.active.fulfillment.webhook.data.response.Status;
 import ai.active.fulfillment.webhook.data.response.WebhookResponse;
 import ai.active.morfeus.Exception.Validation;
@@ -35,9 +34,11 @@ public class WebhookController {
   private ValidationService validationService;
 
   @Autowired
-  private TemplateConversionUtil templateConsversionUtil;
+  private TemplateConversionUtil templateConversionUtil;
 
-  private static final String secret = "morFeu5";
+  private static final String SECRET = "morFeu5";
+
+  private static final String SIGNATURE_MISMATCH = "Signature Mismatch";
 
   public WebhookController(ObjectMapper objectMapper) {
     this.objectMapper = objectMapper;
@@ -54,17 +55,17 @@ public class WebhookController {
   public WebhookResponse getExistingNonExistingStudent(@RequestBody(required = true) String body,
       @RequestHeader(name = "X-Hub-Signature", required = true) String signature, HttpServletResponse response) throws Exception {
     MorfeusWebhookRequest request = objectMapper.readValue(body, MorfeusWebhookRequest.class);
-    String s = WebhookUtil.generateSignature(objectMapper.writeValueAsString(request), secret);
-    WebhookResponse morfeusWebhookResponse = new WebhookResponse();
+    String s = WebhookUtil.generateSignature(objectMapper.writeValueAsString(request), SECRET);
+    WebhookResponse webhookResponse = new WebhookResponse();
     if (s.equals(signature)) {
-      morfeusWebhookResponse.setTemplateCode("existing_non_existing_student");
-      morfeusWebhookResponse.setPayload("{\"isActive\":\"yes\",\"isNonActive\":\"no\"}");
-      morfeusWebhookResponse.setMessageCode("EXISTING_NON_EXISTING_USER");
-      morfeusWebhookResponse.setStatus(Status.SUCCESS);
-      return morfeusWebhookResponse;
+      webhookResponse.setTemplateCode("existing_non_existing_student");
+      webhookResponse.setPayload("{\"isActive\":\"yes\",\"isNonActive\":\"no\"}");
+      webhookResponse.setMessageCode("EXISTING_NON_EXISTING_USER");
+      webhookResponse.setStatus(Status.SUCCESS);
+      return webhookResponse;
     } else {
-      morfeusWebhookResponse.setStatus(Status.FAILED);
-      throw new Validation("Signature Mismatch", 404);
+      webhookResponse.setStatus(Status.FAILED);
+      throw new Validation(SIGNATURE_MISMATCH, 404);
     }
   }
 
@@ -79,15 +80,15 @@ public class WebhookController {
   public WebhookResponse getUpdateDetails(@RequestBody(required = true) String body,
       @RequestHeader(name = "X-Hub-Signature", required = true) String signature, HttpServletResponse response) throws Exception {
     MorfeusWebhookRequest request = objectMapper.readValue(body, MorfeusWebhookRequest.class);
-    String s = WebhookUtil.generateSignature(objectMapper.writeValueAsString(request), secret);
-    WebhookResponse morfeusWebhookResponse = new WebhookResponse();
+    String s = WebhookUtil.generateSignature(objectMapper.writeValueAsString(request), SECRET);
+    WebhookResponse webhookResponse = new WebhookResponse();
     if (s.equals(signature)) {
-      morfeusWebhookResponse.setTemplateCode("update_details");
-      morfeusWebhookResponse.setStatus(Status.SUCCESS);
-      return morfeusWebhookResponse;
+      webhookResponse.setTemplateCode("update_details");
+      webhookResponse.setStatus(Status.SUCCESS);
+      return webhookResponse;
     } else {
-      morfeusWebhookResponse.setStatus(Status.FAILED);
-      throw new Validation("Signature Mismatch", 404);
+      webhookResponse.setStatus(Status.FAILED);
+      throw new Validation(SIGNATURE_MISMATCH, 404);
     }
   }
 
@@ -102,15 +103,15 @@ public class WebhookController {
   public WebhookResponse updateSuccess(@RequestBody(required = true) String body,
       @RequestHeader(name = "X-Hub-Signature", required = true) String signature, HttpServletResponse response) throws Exception {
     MorfeusWebhookRequest request = objectMapper.readValue(body, MorfeusWebhookRequest.class);
-    String s = WebhookUtil.generateSignature(objectMapper.writeValueAsString(request), secret);
-    WebhookResponse morfeusWebhookResponse = new WebhookResponse();
+    String s = WebhookUtil.generateSignature(objectMapper.writeValueAsString(request), SECRET);
+    WebhookResponse webhookResponse = new WebhookResponse();
     if (s.equals(signature)) {
-      morfeusWebhookResponse.setTemplateCode("update_success");
-      morfeusWebhookResponse.setStatus(Status.SUCCESS);
-      return morfeusWebhookResponse;
+      webhookResponse.setTemplateCode("update_success");
+      webhookResponse.setStatus(Status.SUCCESS);
+      return webhookResponse;
     } else {
-      morfeusWebhookResponse.setStatus(Status.FAILED);
-      throw new Validation("Signature Mismatch", 404);
+      webhookResponse.setStatus(Status.FAILED);
+      throw new Validation(SIGNATURE_MISMATCH, 404);
     }
   }
 
@@ -126,15 +127,15 @@ public class WebhookController {
   public WebhookResponse getStudentInfo(@RequestBody(required = true) String body,
       @RequestHeader(name = "X-Hub-Signature", required = true) String signature, HttpServletResponse response) throws Exception {
     MorfeusWebhookRequest request = objectMapper.readValue(body, MorfeusWebhookRequest.class);
-    String s = WebhookUtil.generateSignature(objectMapper.writeValueAsString(request), secret);
-    WebhookResponse morfeusWebhookResponse = new WebhookResponse();
+    String s = WebhookUtil.generateSignature(objectMapper.writeValueAsString(request), SECRET);
+    WebhookResponse webhookResponse = new WebhookResponse();
     if (s.equals(signature)) {
-      morfeusWebhookResponse.setTemplateCode("student_info_5244");
-      morfeusWebhookResponse.setStatus(Status.SUCCESS);
-      return morfeusWebhookResponse;
+      webhookResponse.setTemplateCode("student_info_5244");
+      webhookResponse.setStatus(Status.SUCCESS);
+      return webhookResponse;
     } else {
-      morfeusWebhookResponse.setStatus(Status.FAILED);
-      throw new Validation("Signature Mismatch", 404);
+      webhookResponse.setStatus(Status.FAILED);
+      throw new Validation(SIGNATURE_MISMATCH, 404);
     }
   }
 
@@ -149,15 +150,15 @@ public class WebhookController {
   public WebhookResponse getStudentGender(@RequestBody(required = true) String body,
       @RequestHeader(name = "X-Hub-Signature", required = true) String signature, HttpServletResponse response) throws Exception {
     MorfeusWebhookRequest request = objectMapper.readValue(body, MorfeusWebhookRequest.class);
-    String s = WebhookUtil.generateSignature(objectMapper.writeValueAsString(request), secret);
-    WebhookResponse morfeusWebhookResponse = new WebhookResponse();
+    String s = WebhookUtil.generateSignature(objectMapper.writeValueAsString(request), SECRET);
+    WebhookResponse webhookResponse = new WebhookResponse();
     if (s.equals(signature)) {
-      morfeusWebhookResponse.setTemplateCode("select_gender");
-      morfeusWebhookResponse.setStatus(Status.SUCCESS);
-      return morfeusWebhookResponse;
+      webhookResponse.setTemplateCode("select_gender");
+      webhookResponse.setStatus(Status.SUCCESS);
+      return webhookResponse;
     } else {
-      morfeusWebhookResponse.setStatus(Status.FAILED);
-      throw new Validation("Signature Mismatch", 404);
+      webhookResponse.setStatus(Status.FAILED);
+      throw new Validation(SIGNATURE_MISMATCH, 404);
     }
   }
 
@@ -173,15 +174,15 @@ public class WebhookController {
   public WebhookResponse buyMusicConfirm(@RequestBody(required = true) String body,
       @RequestHeader(name = "X-Hub-Signature", required = true) String signature, HttpServletResponse response) throws Exception {
     MorfeusWebhookRequest request = objectMapper.readValue(body, MorfeusWebhookRequest.class);
-    String s = WebhookUtil.generateSignature(objectMapper.writeValueAsString(request), secret);
-    WebhookResponse morfeusWebhookResponse = new WebhookResponse();
+    String s = WebhookUtil.generateSignature(objectMapper.writeValueAsString(request), SECRET);
+    WebhookResponse webhookResponse = new WebhookResponse();
     if (s.equals(signature)) {
-      morfeusWebhookResponse.setTemplateCode("buy_music_7834");
-      morfeusWebhookResponse.setStatus(Status.SUCCESS);
-      return morfeusWebhookResponse;
+      webhookResponse.setTemplateCode("buy_music_7834");
+      webhookResponse.setStatus(Status.SUCCESS);
+      return webhookResponse;
     } else {
-      morfeusWebhookResponse.setStatus(Status.FAILED);
-      throw new Validation("Signature Mismatch", 404);
+      webhookResponse.setStatus(Status.FAILED);
+      throw new Validation(SIGNATURE_MISMATCH, 404);
     }
   }
 
@@ -196,7 +197,6 @@ public class WebhookController {
   public WebhookResponse validateMobileNumber(@RequestBody(required = true) String body,
       @RequestHeader(name = "X-Hub-Signature", required = true) String signature, HttpServletResponse response) throws Exception {
     MorfeusWebhookRequest request = objectMapper.readValue(body, MorfeusWebhookRequest.class);
-    WebhookResponse webhookResponse =  validationService.mobileNumberValidation(request);
-    return webhookResponse;
+    return validationService.mobileNumberValidation(request);
   }
 }

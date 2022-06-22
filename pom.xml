@@ -9,10 +9,9 @@
 		<relativePath/>
 	</parent>
 	<groupId>ai.active.morfeus</groupId>
-	<artifactId>sampleWebhookApp</artifactId>
+	<artifactId>webhook-application</artifactId>
 	<packaging>war</packaging>
-	<name>sampleWebhookApp</name>
-	<version>0.0.1-SNAPSHOT</version>
+	<name>webhook-application</name>
 	<description>Spring Boot project using webhook</description>
 
 	<properties>
@@ -55,11 +54,6 @@
 			<artifactId>spring-boot-starter-tomcat</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>ai.active</groupId>
-			<artifactId>webhook-sdk</artifactId>
-			<version>1.0.9-SNAPSHOT</version>
-		</dependency>
-		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
 		</dependency>
@@ -89,6 +83,12 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-json</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>ai.active</groupId>
+			<artifactId>webhook-sdk</artifactId>
+			<version>1.0.9-SNAPSHOT</version>
+			<scope>compile</scope>
 		</dependency>
 	</dependencies>
 
